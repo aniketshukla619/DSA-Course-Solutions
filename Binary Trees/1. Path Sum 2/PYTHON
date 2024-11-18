@@ -1,0 +1,30 @@
+## https://leetcode.com/problems/path-sum-ii
+
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+
+
+class Solution:
+    def helper(self, currNode: Optional[TreeNode], Sum: int, res: List[List[int]], curr: List[int]):
+        if currNode is None:
+            return
+        
+        curr.append(currNode.val)
+
+        if currNode.left is None and currNode.right is None and currNode.val == Sum:
+            res.append(curr.copy())
+        
+        self.helper(currNode.left, Sum - currNode.val, res, curr)
+        self.helper(currNode.right, Sum - currNode.val, res, curr)
+
+        curr.pop()
+
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        res = []
+        curr = []
+        self.helper(root, targetSum, res, curr)
+        return res
